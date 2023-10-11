@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/locationProvider.dart';
+import 'package:weather_app/services/location_service.dart';
 
 class Home extends StatefulWidget {
   const Home({ Key? key }) : super(key: key);
@@ -22,7 +24,9 @@ class _HomeState extends State<Home> {
   }
 
   void initialization() async {
-    await Future.delayed(const Duration(seconds: 1));
+    LocationService locationService = LocationService();
+    LocationData data = await locationService.getLocation();
+    Provider.of<LocationProvider>(context, listen: false).setLocation(data);
     FlutterNativeSplash.remove();
   }
   
