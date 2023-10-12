@@ -5,6 +5,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/components/hourly_forecast.dart';
+import 'package:weather_app/components/other.dart';
+import 'package:weather_app/components/temperature.dart';
+import 'package:weather_app/components/weather_forecast.dart';
 import 'package:weather_app/provider/locationProvider.dart';
 import 'package:weather_app/services/location_service.dart';
 
@@ -34,49 +38,66 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         leading: IconButton(onPressed: ()=> context.go('/add'), icon: Icon(Icons.add)),
         actions: [
           IconButton(onPressed: ()=> context.go('/settings'), icon: Icon(Icons.settings))
         ],
-        backgroundColor: Colors.red,
         title: Text(context.watch<LocationProvider>().getName),
         centerTitle: true,
       ),
+      backgroundColor: Color.fromARGB(255, 34, 126, 230),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
-              color: Colors.amberAccent,
+              height: MediaQuery.of(context).size.height / 1.8,
+              child: Center(child: Temperature())
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 3,
               child: Padding(
                 padding: EdgeInsets.all(10.0), 
-                child: Text("Container 1"),
+                child: WeatherForecast(),
               ),
             ),
-            Container(
+            SizedBox(
+              
               width: MediaQuery.of(context).size.width,
-              color: Colors.amber,
+              height: MediaQuery.of(context).size.height / 4,
               child: Padding(
                 padding: EdgeInsets.all(10.0), 
-                child: Text("Container 2"),
+                child: HourlyForecast(),
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
-              color: Colors.blueAccent,
+              height: MediaQuery.of(context).size.height / 4,
               child: Padding(
                 padding: EdgeInsets.all(10.0), 
-                child: Text("Container 3"),
+                child: Other(),
               ),
             ),
-            Container(
+
+            SizedBox(
               width: MediaQuery.of(context).size.width,
-              color: Colors.greenAccent,
+              height: 40,
               child: Padding(
                 padding: EdgeInsets.all(10.0), 
-                child: Text("Container 4"),
+                child: Center(
+                  child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: "Dane zapewnione przez ", style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 13)),
+                      TextSpan(text: "Open-Meteo", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15))
+                    ]
+                  )
+                ))
               ),
-            )
+            ),
           ],
         ),
       ),
