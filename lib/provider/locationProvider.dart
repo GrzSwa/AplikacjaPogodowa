@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 
 class LocationProvider extends ChangeNotifier{
-  String name = "Kielce";
+  String name = "None";
   List<String> _locationsList = ["Kielce","Tarnobrzeg"];
-  late LocationData locationData;
 
   String get getName => name;
   List<String> get getListOfLocations => _locationsList;
 
-  void setLocation(LocationData location){
-    locationData = location;
-    changeCity(locationData.accuracy.toString());
+  void setCity(String city){
+    this.name = city;
     notifyListeners();
   }
 
@@ -20,10 +17,6 @@ class LocationProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void changeCity(String city) async{
-    name = city;
-    notifyListeners();
-  }
 
 
 }

@@ -30,7 +30,9 @@ class _HomeState extends State<Home> {
   void initialization() async {
     LocationService locationService = LocationService();
     LocationData data = await locationService.getLocation();
-    Provider.of<LocationProvider>(context, listen: false).setLocation(data);
+    String city = await locationService.getCity();
+    if(city != "Brak lokalizacji")
+      Provider.of<LocationProvider>(context, listen: false).setCity(city);
     FlutterNativeSplash.remove();
   }
   

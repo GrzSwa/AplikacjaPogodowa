@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class LocationService{
   late Location location;
@@ -25,4 +28,19 @@ class LocationService{
     _locationData = await location.getLocation();
     return _locationData;
   }
+
+  Future <String> getCity()async {
+    var url = Uri.https("geocode.maps.co","/reverse",{"lat":"${_locationData.latitude}", "lon":"${_locationData.longitude}"});
+    var response = await http.get(url);
+    if(response.statusCode == 200){
+      var decode = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      if(decode["address"]["city"] != null)
+        return decode["address"]["city"];
+      else
+        return decode["address"]["village"];
+    }
+    return "Brak lokalizacji";
+  }
+
+
 }

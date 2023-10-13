@@ -22,7 +22,7 @@ GoRouter router = GoRouter(
         GoRoute(
           path: 'settings',
           builder: (BuildContext context, GoRouterState state) {
-            return const Settings();
+            return Settings();
           },
         ),
         GoRoute(
