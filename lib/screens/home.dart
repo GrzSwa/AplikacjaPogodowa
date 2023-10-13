@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/components/hourly_forecast.dart';
 import 'package:weather_app/components/other.dart';
@@ -29,7 +27,6 @@ class _HomeState extends State<Home> {
 
   void initialization() async {
     LocationService locationService = LocationService();
-    LocationData data = await locationService.getLocation();
     String city = await locationService.getCity();
     if(city != "Brak lokalizacji")
       Provider.of<LocationProvider>(context, listen: false).setCity(city);

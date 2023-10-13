@@ -11,7 +11,7 @@ class CityBox extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 31, 67, 114),
+        color: Color.fromARGB(255, 58, 144, 255),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Row(

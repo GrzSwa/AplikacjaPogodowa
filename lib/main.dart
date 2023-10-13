@@ -9,12 +9,7 @@ import 'package:weather_app/router/router.dart' as routerScreens;
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  /*runApp(
-    ChangeNotifierProvider(
-      create: (context)=>LocationProvider(),
-      child: const MyApp(),
-    )
-  );*/
+  
   runApp(
     MultiProvider(
       providers: [
