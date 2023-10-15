@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/components/title_box.dart';
 import 'package:weather_app/components/weather_on_the_hour.dart';
+import 'package:weather_app/provider/weatherProvider.dart';
 
 class HourlyForecast extends StatelessWidget {
 const HourlyForecast({ Key? key }) : super(key: key);
@@ -18,7 +20,7 @@ const HourlyForecast({ Key? key }) : super(key: key);
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TitleBox(icon: Icons.timelapse,title: "24-godzinna prognoza pogody"),
+          const TitleBox(icon: Icons.timelapse,title: "24-godzinna prognoza pogody"),
           const SizedBox(height: 15),
           Expanded(
             child:ListView.builder(
@@ -28,10 +30,12 @@ const HourlyForecast({ Key? key }) : super(key: key);
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 5),
                   child: WeatherOnTheHour(
-                    temperature: "18", 
+                    temperature: context.watch<WeatherProvider>().getHourlyWeather(index).temperature.toString(), 
                     icon: Icon(Icons.circle_notifications, color: Colors.white,), 
-                    windSpeed: "20,7 km/h", 
-                    hour: "${index.toString()}:00"));
+                    windSpeed: "${context.watch<WeatherProvider>().getHourlyWeather(index).windspeed.toString()} km/h", 
+                    hour: context.watch<WeatherProvider>().getHourlyWeather(index).time.toString()
+                  )
+                );
               }
             )
           )

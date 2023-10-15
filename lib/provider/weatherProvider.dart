@@ -7,13 +7,12 @@ class WeatherProvider extends ChangeNotifier{
   late List<DailyWeatherModel> _dailyWeatherList ;
   late CurrentWeatherModel _currentWeather;
   late List<HourlyWeatherModel> _hourlyWeatherList;
+  DailyWeatherModel getDailyweather(int index){ return _dailyWeatherList[index]; }
+  CurrentWeatherModel getCurrentWeather(){ return _currentWeather; }
+  HourlyWeatherModel getHourlyWeather(int index){ return _hourlyWeatherList[index]; }
 
-  DailyWeatherModel getDailyweather(int index){ return _dailyWeatherList![index]; }
-  CurrentWeatherModel getCurrentWeather(){ return _currentWeather!; }
-  HourlyWeatherModel getHourlyWeather(int index){ return _hourlyWeatherList![index]; }
-
-  void addDailyweather(DailyWeatherModel dailyWeatherModel) async{
-    _dailyWeatherList!.add(dailyWeatherModel);
+  void addDailyweather(List<DailyWeatherModel> dailyWeatherModel) async{
+    _dailyWeatherList = dailyWeatherModel;
     notifyListeners();
   }
 
@@ -22,8 +21,8 @@ class WeatherProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHourlyWeather(HourlyWeatherModel hourlyWeatherModel) async{
-    _hourlyWeatherList!.add(hourlyWeatherModel);
+  void addHourlyWeather(List<HourlyWeatherModel> hourlyWeatherModel) async{
+    _hourlyWeatherList = hourlyWeatherModel;
     notifyListeners();
   }
 
