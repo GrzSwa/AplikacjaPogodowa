@@ -12,7 +12,7 @@ class LocationService{
     location = Location();
   }
 
-  Future<void> getLocation() async{
+  Future<LocationData> getLocation() async{
 
     _serviceEnabled = await location.serviceEnabled();
     if(!_serviceEnabled){
@@ -25,11 +25,12 @@ class LocationService{
     }
 
     _locationData = await location.getLocation();
+    return _locationData;
   }
-
-  Future <String> getCity() async{
-    await getLocation();
-    var response = await responseBody(_locationData.latitude.toString(), _locationData.longitude.toString());
+  
+  Future <String> getCity(LocationData locationData) async{
+    var response = await responseBody("geocode.maps.co","/reverse",{"lat":locationData.latitude.toString(), "lon":locationData.longitude.toString()});
+    
     var decodedResponse = jsonDecode(response!.body) as Map;
     if(decodedResponse["address"]["city"] != null)
       return decodedResponse["address"]["city"];

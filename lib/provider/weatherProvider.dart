@@ -1,106 +1,30 @@
 import 'package:flutter/material.dart';
-
+import 'package:weather_app/model/current_weather_model.dart';
+import 'package:weather_app/model/daily_weather_model.dart';
+import 'package:weather_app/model/hourly_weather_model.dart';
 
 class WeatherProvider extends ChangeNotifier{
-  int currentTemperature = 0;
-  String windSpeed = '';
-  String sunrise = '';
-  String sunset = '';
-  String uv = '';
-  String airQuality = '';
-  Map<String,String> forecast = {};
-  Map<String,Map<String,String>> forecastForToday = {};
-  String moisture = '';
-  String preceivedTemperature = '';
-  String pressure = '';
-  String chanceOfRain = '';
+  late List<DailyWeatherModel> _dailyWeatherList ;
+  late CurrentWeatherModel _currentWeather;
+  late List<HourlyWeatherModel> _hourlyWeatherList;
 
-  int get getCurrentTemperature => currentTemperature;
-  String get getWindSpeed => windSpeed;
-  String get getSunrise => sunrise;
-  String get getSunset => sunset;
-  String get getUV => uv;
-  String get getAirQuality => airQuality;
-  String get getMoisture => moisture;
-  String get getPreceivedTemperature => preceivedTemperature;
-  String get getPressure => pressure;
-  String get getchanceOfRain => chanceOfRain;
+  DailyWeatherModel getDailyweather(int index){ return _dailyWeatherList![index]; }
+  CurrentWeatherModel getCurrentWeather(){ return _currentWeather!; }
+  HourlyWeatherModel getHourlyWeather(int index){ return _hourlyWeatherList![index]; }
 
-  set setForecast(Map<String,String> forecast){
-    this.forecast = forecast;
+  void addDailyweather(DailyWeatherModel dailyWeatherModel) async{
+    _dailyWeatherList!.add(dailyWeatherModel);
     notifyListeners();
   }
 
-  set setForecastForToday(Map<String,Map<String,String>> forecastForToday){
-    this.forecastForToday = forecastForToday;
+  void addCurrentWeather(CurrentWeatherModel currentWeatherModel) async{
+    _currentWeather = currentWeatherModel;
     notifyListeners();
   }
 
-  set setCurrentTemperature(int currentTemperature){
-    this.currentTemperature = currentTemperature;
+  void addHourlyWeather(HourlyWeatherModel hourlyWeatherModel) async{
+    _hourlyWeatherList!.add(hourlyWeatherModel);
     notifyListeners();
-  }
-
-  set setSunrise(String sunrise){
-    this.sunrise = sunrise;
-    notifyListeners();
-  }
-
-  set setSunset(String sunset){
-    this.sunset = sunset;
-    notifyListeners();
-  }
-
-  set setUV(String uv){
-    this.uv = uv;
-    notifyListeners();
-  }
-
-  set setAirQuality(String airQuality){
-    this.airQuality = airQuality;
-    notifyListeners();
-  }
-
-  set setMoisture(String moisture){
-    this.moisture = moisture;
-    notifyListeners();
-  }
-
-  set setPreceivedTemperature(String preceivedTemperature){
-    this.preceivedTemperature = preceivedTemperature;
-    notifyListeners();
-  }
-
-  set setPressure(String pressure){
-    this.pressure = pressure;
-    notifyListeners();
-  }
-
-  set setChanceOfRain(String chanceOfRain) {
-    this.chanceOfRain = chanceOfRain;
-    notifyListeners();
-  }
-
-  /*0:00:{
-    "windSpeed": "11,1 km/h",
-    "temperature": "15"
-  } 
-  */
-  Map<String,String> getWeatherAt(String hour){
-    Map<String,String> response = {};  
-    if(forecastForToday.containsKey(hour)){
-      response["windSpeed"] = forecastForToday[hour]!["windSpeed"]!;
-      response["temperature"] = forecastForToday[hour]!["temperature"]!;
-    }
-    return response;
-  }
-
-   String getWeatherOnDay(String day){
-    String response = '';  
-    if(forecast.containsKey(day)){
-      response = forecast[day].toString();
-    }
-    return response;
   }
 
 }

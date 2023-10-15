@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/provider/weatherProvider.dart';
 
 class Temperature extends StatelessWidget {
 const Temperature({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
+
+    String temperature = context.watch<WeatherProvider>().getCurrentWeather().getTemperature.toString();
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("20", style: TextStyle(
+              Text(temperature, style: TextStyle(
                 fontSize: 90,
                 color: Colors.white
               ),),
