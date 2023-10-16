@@ -1,19 +1,45 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/components/world_direction.dart';
 import 'package:weather_app/provider/weatherProvider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 class Other extends StatelessWidget {
 const Other({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
 
+    String setWindDirection(int value){
+      if(value  >= 0 && value < 22.5 || value >= 337.5){
+        return "N";
+      }else if(value >= 22.5 && value < 67.5){
+        return "NE";
+      }else if(value >= 67.5 && value < 112.5){
+        return "E";
+      }else if(value >= 112.5 && value < 157.5){
+        return "SE";
+      }else if(value >= 157.5 && value < 202.5){
+        return "S";
+      }else if(value >= 202.5 && value < 247.5){
+        return "SW";
+      }else if(value >= 247.5 && value < 292.5){
+        return "W";
+      }else if(value > 292.5 && value < 337.5){
+        return "NW";
+      }else{
+        return value.toString();
+      }
+    }
+
     String windspeed = context.watch<WeatherProvider>().getCurrentWeather().getWindspeed.toString();
     String sunrise = context.watch<WeatherProvider>().getDailyweather(0).getSunrise;
     String sunset = context.watch<WeatherProvider>().getDailyweather(0).getSunset;
     String relativehumidity = context.watch<WeatherProvider>().getCurrentWeather().getRelativehumidity.toString();
-    String apparentTemperature = context.watch<WeatherProvider>().getCurrentWeather().getApparentTemperature.toString();
-    String surfacePressure = context.watch<WeatherProvider>().getCurrentWeather().getDurfacePressure.toString();
+    String apparentTemperature = context.watch<WeatherProvider>().getCurrentWeather().getApparentTemperature.ceil().toString();
+    String surfacePressure = context.watch<WeatherProvider>().getCurrentWeather().getDurfacePressure.ceil().toString();
+    String windDirection = setWindDirection(context.watch<WeatherProvider>().getCurrentWeather().getWindDirection);
+
 
     return Row(
       children: [
@@ -37,12 +63,17 @@ const Other({ Key? key }) : super(key: key);
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("PN-z", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16) ),
+                            Text(windDirection, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16) ),
                             const SizedBox(height: 5,),
                             Text("$windspeed km/h", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),)
                           ],
                         ),
-                        Icon(Icons.circle, size: 80, color: Colors.white,)
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: WorldDirection()
+                            )
+                        )
                       ],
                     ),  
                   ),
@@ -85,7 +116,16 @@ const Other({ Key? key }) : super(key: key);
                           )
                           ],
                         ),
-                        Icon(Icons.circle, size: 80, color: Colors.white,)
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: SvgPicture.asset(
+                                "assets/sunrise.svg",
+                                color: Colors.white,
+                                width: double.infinity,
+                              )
+                            )
+                        )
                       ],
                     ),  
                   ),
@@ -120,7 +160,7 @@ const Other({ Key? key }) : super(key: key);
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Odczuwalnie', style: TextStyle(color: Colors.white.withOpacity(0.6) )),
-                      Text(apparentTemperature, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,)),
+                      Text("${apparentTemperature}º", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,)),
                     ],
                   ),
                   Divider(color: Colors.white.withOpacity(0.6),),

@@ -31,6 +31,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     LocationService locationService = LocationService();
     WeatherService weatherService = WeatherService();
     LocationData locationData = await locationService.getLocation();
+    int currentHour = DateTime.now().hour;
+
 
     String city = await locationService.getCity(locationData);
 
@@ -42,7 +44,20 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         "longitude":locationData.longitude.toString(),
         "daily":"weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,windspeed_10m_max",
         "hourly":"temperature_2m,weathercode,windspeed_10m",
-        "current":"temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,surface_pressure,windspeed_10m",
+        "current":"temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,surface_pressure,windspeed_10m,winddirection_10m",
+        "timeformat":"iso8601",
+        "timezone":"GMT"
+      }
+    );
+
+    var airQualityInfo = await weatherService.weatherInfo(
+      "air-quality-api.open-meteo.com",
+      "/v1/air-quality",
+      {
+        "latitude":locationData.latitude.toString(), 
+        "longitude":locationData.longitude.toString(),
+        "current":"european_aqi",
+        "forecast_days":"1",
         "timeformat":"iso8601",
         "timezone":"GMT"
       }
@@ -61,10 +76,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         relativehumidity: info["current"]["relativehumidity_2m"], 
         apparentTemperature: info["current"]["apparent_temperature"], 
         surfacePressure: info["current"]["surface_pressure"], 
-        windspeed: info["current"]["windspeed_10m"]
+        windspeed: info["current"]["windspeed_10m"],
+        winddirection: info["current"]["winddirection_10m"],
+        airQuality: airQualityInfo!["current"]["european_aqi"]
       );
 
-      for(int i = 0; i < 24; i++){
+      for(int i = currentHour; i < currentHour + 24; i++){
         var time = info["hourly"]["time"][i].toString().substring(11, 16);
         var temperature = info["hourly"]["temperature_2m"][i] as double;
         var weathercode = info["hourly"]["weathercode"][i] as int;
@@ -116,6 +133,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           );
         }else{
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Scaffold(
               backgroundColor: Color.fromARGB(255, 34, 126, 230),
               body: Center(

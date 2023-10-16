@@ -1,3 +1,4 @@
+
 class DailyWeatherModel{
   late String _date ;
   late int _weathercode;
@@ -28,4 +29,30 @@ class DailyWeatherModel{
   String get getSunset => _sunset;
   double get getPrecipitation => _precipitation;
   double get getWindspeed => _windspeed;
+
+
+  String getDayOfTheWeek(String date){
+    final dateFormated = DateTime.parse(date);
+    final dayOfTheWeek = dateFormated.weekday;
+
+    switch (dayOfTheWeek) {
+      case 1:
+        return "Pn.";
+      case 2:
+        return "Wt.";
+      case 3:
+        return "Śro.";
+      case 4:
+        return "Czw.";
+      case 5:
+        return "Pt.";
+      case 6:
+        return "Sob.";
+      case 7:
+        return "Nd.";
+      default:
+        return "Null";
+    }
+  }
+
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ForecastBox extends StatelessWidget {
-  final Icon icon;
+  final String icon;
   final String day;
   final String weather;
   final String temperature;
@@ -16,7 +16,7 @@ class ForecastBox extends StatelessWidget {
         children: [
           Row(
             children: [
-              icon,
+              Text(icon, style: TextStyle(fontSize: 18),),
               const SizedBox(width: 5,),
               Text(day, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
               const SizedBox(width: 5,),

@@ -6,6 +6,8 @@ class CurrentWeatherModel{
   final double apparentTemperature;
   final double surfacePressure;
   final double windspeed;
+  final int winddirection;
+  final int airQuality;
 
   CurrentWeatherModel({
       required this.weathercode, 
@@ -15,6 +17,8 @@ class CurrentWeatherModel{
       required this.apparentTemperature,
       required this.surfacePressure,
       required this.windspeed,
+      required this.winddirection,
+      required this.airQuality
     }
   );
 
@@ -25,4 +29,6 @@ class CurrentWeatherModel{
   double get getApparentTemperature => apparentTemperature;
   double get getDurfacePressure => surfacePressure;
   double get getWindspeed => windspeed;
+  int get getWindDirection => winddirection;
+  int get getAirQuality => airQuality;
 }

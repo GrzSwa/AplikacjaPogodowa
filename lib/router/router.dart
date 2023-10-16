@@ -4,6 +4,7 @@ import 'package:weather_app/screens/add_city.dart';
 import 'package:weather_app/screens/city.dart';
 import 'package:weather_app/screens/home.dart';
 import 'package:weather_app/screens/settings.dart';
+import 'package:weather_app/screens/seven_day_forecast.dart';
 
 GoRouter router = GoRouter(
   routes: <RouteBase>[
@@ -29,6 +30,12 @@ GoRouter router = GoRouter(
           path: 'add_city',
           builder: (BuildContext context, GoRouterState state) {
             return const AddCity();
+          },
+        ),
+        GoRoute(
+          path: 'seven_day_forecast',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SevenDayForecast();
           },
         ),
       ],
