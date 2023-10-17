@@ -1,30 +1,28 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-import crypto
 import uvicorn
+from routers import astro, key, search, unencrypted
 
-app = FastAPI()
+app = FastAPI(
+title="Aplikacja pogodwa",
+    description="Pobieranie danyc pogodowych z open-meteo.com",
+    summary="",
+    version="1.0.1",
+    terms_of_service="https://example.com/",
+    contact={
+        "name": "Karol Wykrota, Grzegorz Swajda, Jakub Sadza",
+        "url": "https://example.com/",
+        "email": "",
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+)
 
-
-class MyData(BaseModel):
-    encrypted_data: bytes
-
-
-@app.get("/weather")
-def send_weather(data: MyData):
-    geo_data = crypto.decode_data(data.encrypted_data)
-    return crypto.weather(geo_data['longitude'], geo_data['latitude'])
-
-
-@app.get("/city")
-def send_city(data: MyData):
-    geo_data = crypto.decode_data(data.encrypted_data)
-    return crypto.get_city(geo_data['longitude'], geo_data['latitude'])
-
-
-@app.get("/key")
-def send_key():
-    return {"public_key": str(crypto.public_key_send())}
+app.include_router(astro.router)
+app.include_router(key.router)
+app.include_router(search.router)
+app.include_router(unencrypted.router)
 
 
 if __name__ == "__main__":
