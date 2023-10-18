@@ -25,7 +25,7 @@ const WeatherForecast({ Key? key }) : super(key: key);
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TitleBox(icon: Icons.calendar_month_rounded,title: "7-dniowa prognoza pogody"),
+          const TitleBox(icon: Icons.calendar_month_rounded,title: "7-dniowa prognoza pogody"),
           ForecastBox(
             icon: WeatherIcon().getIcon(context.watch<WeatherProvider>().getDailyweather(0).getWeathercode), 
             day: context.watch<WeatherProvider>().getDailyweather(0).getDayOfTheWeek(context.watch<WeatherProvider>().getDailyweather(0).getDate),
@@ -48,16 +48,16 @@ const WeatherForecast({ Key? key }) : super(key: key);
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(255, 255, 255, 0.2), 
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8), 
-                minimumSize: Size(double.infinity, 40),
+                backgroundColor: const Color.fromRGBO(255, 255, 255, 0.2), 
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8), 
+                minimumSize: const Size(double.infinity, 40),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), 
                 ),
               ),
               onPressed: ()=> context.go('/seven_day_forecast'), 
-              child: Text("Prognoza 7-dniowa", style: TextStyle(color: Colors.white),)
+              child: const Text("Prognoza 7-dniowa", style: TextStyle(color: Colors.white),)
             )
           )
         ],

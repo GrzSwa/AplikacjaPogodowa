@@ -10,7 +10,7 @@ class TitleBox extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          WidgetSpan(child: Icon(icon, size: 15, color: Color.fromRGBO(255, 255, 255, 0.5),)),
+          WidgetSpan(child: Icon(icon, size: 15, color: const Color.fromRGBO(255, 255, 255, 0.5),)),
           const WidgetSpan(child: SizedBox(width: 5,)),
           TextSpan(text: title, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 15,))
         ]

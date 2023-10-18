@@ -9,21 +9,21 @@ class ForecastBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Text(icon, style: TextStyle(fontSize: 18),),
+              Text(icon, style: const TextStyle(fontSize: 18),),
               const SizedBox(width: 5,),
-              Text(day, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+              Text(day, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
               const SizedBox(width: 5,),
-              Text(weather, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+              Text(weather, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
             ],
           ),
-          Text(temperature, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)
+          Text(temperature, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)
         ],
       ),
     );

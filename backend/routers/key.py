@@ -11,4 +11,4 @@ class Wather(BaseModel):
 
 @router.get("/", description="Klucz publiczny do szyfrowania end-to-end")
 def send_key():
-    return {"public_key": str(crypto.public_key_send())}
+    return {"public_key": crypto.public_key_send()}

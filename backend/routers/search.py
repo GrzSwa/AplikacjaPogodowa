@@ -9,7 +9,8 @@ class Search(BaseModel):
     search_name: str
 
 
-@router.get("/", description="Wyświetlanie listy lokalizacji")
+@router.post("/", description="Wyświetlanie listy lokalizacji")
 def send_search(data: Search):
+
     search_load = search_data.search(data.search_name)
     return search_load

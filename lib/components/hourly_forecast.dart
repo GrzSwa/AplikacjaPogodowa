@@ -29,7 +29,7 @@ const HourlyForecast({ Key? key }) : super(key: key);
               itemCount: 24,
               itemBuilder: (context,index){
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
                   child: WeatherOnTheHour(
                     temperature: "${context.watch<WeatherProvider>().getHourlyWeather(index).temperature.ceil().toString()}ºC", 
                     icon:  WeatherIcon().getIcon(context.watch<WeatherProvider>().getHourlyWeather(index).getWeathercode), 
@@ -40,22 +40,6 @@ const HourlyForecast({ Key? key }) : super(key: key);
               }
             )
           )
-          /*Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-   
-              itemCount: 24,
-              itemBuilder: (context,index){
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  child: WeatherOnTheHour(
-                    temperature: "18", 
-                    icon: Icon(Icons.circle_notifications, color: Colors.white,), 
-                    windSpeed: "20,7 km/h", 
-                    hour: "${index.toString()}:00"));
-              }
-            ),
-          )*/
         ],
       )
     );

@@ -14,21 +14,21 @@ const SevenDayForecast({ Key? key }) : super(key: key);
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: ()=> context.go('/'), icon: Icon(Icons.arrow_back, color: Colors.black,)),
+        leading: IconButton(onPressed: ()=> context.go('/'), icon: const Icon(Icons.arrow_back, color: Colors.black,)),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text("Prognoza 7-dniowa", style: TextStyle(color: Colors.black),),
         centerTitle: true,
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.only(top: 30),
         height: MediaQuery.of(context).size.height / 2,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: 7,
           itemBuilder: (context,index){ 
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
               width: 85,
               child: SevenDayBox(
                 day: context.watch<WeatherProvider>().getDailyweather(index).getDate, 

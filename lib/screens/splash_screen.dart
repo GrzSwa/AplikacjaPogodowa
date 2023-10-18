@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +9,7 @@ import 'package:weather_app/model/hourly_weather_model.dart';
 import 'package:weather_app/provider/data_provider.dart';
 import 'package:weather_app/provider/locationProvider.dart';
 import 'package:weather_app/provider/weatherProvider.dart';
+import 'package:weather_app/services/encryption_service.dart' as EncryptionService;
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 import 'package:weather_app/model/current_weather_model.dart';
@@ -25,48 +29,28 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       initialization();
       super.initState();
     }
-//https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,surface_pressure,windspeed_10m&hourly=temperature_2m,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max&timezone=GMT
 
   void initialization() async {
     LocationService locationService = LocationService();
     WeatherService weatherService = WeatherService();
     LocationData locationData = await locationService.getLocation();
     int currentHour = DateTime.now().hour;
+    String plainText = '{"longitude":"${locationData.longitude.toString()}", "latitude":${locationData.latitude.toString()}}';
 
-
-    String city = await locationService.getCity(locationData);
+    var PK = await weatherService.getPublicKey("10.0.2.2:30000","/key");
+    var encrypted = EncryptionService.encryption(PK["public_key"], plainText);
+    
 
     var info = await weatherService.weatherInfo(
-      "api.open-meteo.com",
-      "/v1/forecast",
+      "10.0.2.2:30000",
+      "/astro/weather",
       {
-        "latitude":locationData.latitude.toString(), 
-        "longitude":locationData.longitude.toString(),
-        "daily":"weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,windspeed_10m_max",
-        "hourly":"temperature_2m,weathercode,windspeed_10m",
-        "current":"temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,weathercode,surface_pressure,windspeed_10m,winddirection_10m",
-        "timeformat":"iso8601",
-        "timezone":"GMT"
+        "encrypted_data":encrypted.base64, 
       }
     );
-
-    var airQualityInfo = await weatherService.weatherInfo(
-      "air-quality-api.open-meteo.com",
-      "/v1/air-quality",
-      {
-        "latitude":locationData.latitude.toString(), 
-        "longitude":locationData.longitude.toString(),
-        "current":"european_aqi",
-        "forecast_days":"1",
-        "timeformat":"iso8601",
-        "timezone":"GMT"
-      }
-    );
-
-    if(city != "Brak lokalizacji")
-      Provider.of<LocationProvider>(context, listen: false).setCity(city);
 
     if(info != null){
+      Provider.of<LocationProvider>(context, listen: false).setCity(info["current"]["city_name"]);
       List<HourlyWeatherModel> hourlyWeatherList = [];
       List<DailyWeatherModel> dailyWeatherList = [];
       CurrentWeatherModel currentWeatherModel = CurrentWeatherModel(
@@ -78,10 +62,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         surfacePressure: info["current"]["surface_pressure"], 
         windspeed: info["current"]["windspeed_10m"],
         winddirection: info["current"]["winddirection_10m"],
-        airQuality: airQualityInfo!["current"]["european_aqi"]
+        airQuality: info["current"]["european_aqi"]
       );
 
-      for(int i = currentHour; i < currentHour + 24; i++){
+      for(int i = currentHour + 2; i < currentHour + 24; i++){
         var time = info["hourly"]["time"][i].toString().substring(11, 16);
         var temperature = info["hourly"]["temperature_2m"][i] as double;
         var weathercode = info["hourly"]["weathercode"][i] as int;
@@ -103,8 +87,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           "weathercode":weathercode,
           "maxTemp":maxTemperature,
           "minTemp":minTemperature,
-          "sunrise":sunrise,
-          "sunset":sunset,
+          "sunrise":sunrise.replaceAll(sunrise[1], (int.parse(sunrise[1])+2).toString()),
+          "sunset":sunset.replaceAll(sunset[1], (int.parse(sunset[1])+2).toString()),
           "precipitation":precipitation,
           "windspeed":windspeed,
         };
@@ -115,6 +99,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       Provider.of<WeatherProvider>(context, listen: false).addHourlyWeather(hourlyWeatherList);
       Provider.of<WeatherProvider>(context, listen: false).addDailyweather(dailyWeatherList);
     }
+
     
     Provider.of<DataProvider>(context, listen: false).setLocationProviderStatus(true);
     Provider.of<DataProvider>(context, listen: false).setSettingsProviderStatus(true);
@@ -138,14 +123,14 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
               backgroundColor: Color.fromARGB(255, 34, 126, 230),
               body: Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25), 
+                  padding: const EdgeInsets.symmetric(horizontal: 25), 
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('assets/weatherLogo.png', scale: 2,),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 3,
-                        child: LinearProgressIndicator(
+                        child: const LinearProgressIndicator(
                           backgroundColor: Color.fromARGB(255, 34, 126, 230),
                           color: Colors.white,
                         ),

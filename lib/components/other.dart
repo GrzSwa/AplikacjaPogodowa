@@ -100,7 +100,7 @@ const Other({ Key? key }) : super(key: key);
                             Text.rich(
                             TextSpan(
                               children: [
-                                TextSpan(text: "$sunrise", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                                TextSpan(text: sunrise, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                                 TextSpan(text: " Wschód", style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14)),
                               ]
                             )
@@ -109,7 +109,7 @@ const Other({ Key? key }) : super(key: key);
                           Text.rich(
                             TextSpan(
                               children: [
-                                TextSpan(text: "$sunset", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                                TextSpan(text: sunset, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                                 TextSpan(text: " Zachód", style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14)),
                               ]
                             )
@@ -160,7 +160,7 @@ const Other({ Key? key }) : super(key: key);
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Odczuwalnie', style: TextStyle(color: Colors.white.withOpacity(0.6) )),
-                      Text("${apparentTemperature}º", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,)),
+                      Text("$apparentTemperatureº", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,)),
                     ],
                   ),
                   Divider(color: Colors.white.withOpacity(0.6),),

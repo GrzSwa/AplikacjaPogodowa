@@ -17,7 +17,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: ()=> context.go('/'), icon: Icon(Icons.arrow_back, color: Colors.black,)),
+        leading: IconButton(onPressed: ()=> context.go('/'), icon: const Icon(Icons.arrow_back, color: Colors.black,)),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text("Ustawienia", style: TextStyle(color: Colors.black),),
@@ -26,29 +26,29 @@ class _SettingsState extends State<Settings> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: ListView(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 3.3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 20), 
                     child: Text("JENDNOSTKI", style: TextStyle(color: Colors.grey, fontSize: 13, ))),
                   ListTile(
-                    title: Text("Jednostka temperatury", style: TextStyle(fontWeight: FontWeight.bold),),
+                    title: const Text("Jednostka temperatury", style: TextStyle(fontWeight: FontWeight.bold),),
                     subtitle: Text(context.watch<SettingsProvider>().getDefaultSettings["temperatureUnit"]),
                     trailing: PopupMenuButton(
                       color: Colors.grey,
                       itemBuilder: (context) => [
                         for(int i = 0; i < Provider.of<SettingsProvider>(context,listen: false).getTemperatureUnit.length; i++)
                           PopupMenuItem(
-                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getTemperatureUnit[i]),
                             value: Provider.of<SettingsProvider>(context,listen: false).getTemperatureUnit[i],
+                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getTemperatureUnit[i]),
                           ),
                       ],
                       onSelected: (String value){
@@ -58,15 +58,15 @@ class _SettingsState extends State<Settings> {
                   ),
 
                   ListTile(
-                    title:Text("Jednostka prędkości wiatru", style: TextStyle(fontWeight: FontWeight.bold),),
+                    title:const Text("Jednostka prędkości wiatru", style: TextStyle(fontWeight: FontWeight.bold),),
                     subtitle: Text(context.watch<SettingsProvider>().getDefaultSettings["utniOfWindSpeed"]),
                     trailing: PopupMenuButton(
                       color: Colors.grey,
                       itemBuilder: (context) => [
                         for(int i = 0; i < Provider.of<SettingsProvider>(context,listen: false).getUtniOfWindSpeed.length; i++)
                           PopupMenuItem(
-                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getUtniOfWindSpeed[i]),
                             value: Provider.of<SettingsProvider>(context,listen: false).getUtniOfWindSpeed[i],
+                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getUtniOfWindSpeed[i]),
                           ),
                       ],
                       onSelected: (String value){
@@ -76,15 +76,15 @@ class _SettingsState extends State<Settings> {
                   ),
 
                   ListTile(
-                    title:Text("Jednostka ciśnienia atmosferycznego", style: TextStyle(fontWeight: FontWeight.bold),),
+                    title:const Text("Jednostka ciśnienia atmosferycznego", style: TextStyle(fontWeight: FontWeight.bold),),
                     subtitle: Text(context.watch<SettingsProvider>().getDefaultSettings["unitOfAtmosphericPressure"]),
                     trailing: PopupMenuButton(
                       color: Colors.grey,
                       itemBuilder: (context) => [
                         for(int i = 0; i < Provider.of<SettingsProvider>(context,listen: false).getUnitOfAtmosphericPressure.length; i++)
                           PopupMenuItem(
-                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getUnitOfAtmosphericPressure[i]),
                             value: Provider.of<SettingsProvider>(context,listen: false).getUnitOfAtmosphericPressure[i],
+                            child: Text(Provider.of<SettingsProvider>(context,listen: false).getUnitOfAtmosphericPressure[i]),
                           ),
                       ],
                       onSelected: (String value){
@@ -92,25 +92,25 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                   ),
-                  Divider(color: Colors.grey, height: 2,)
+                  const Divider(color: Colors.grey, height: 2,)
                   
                 ],
               )
             ),
 
-            Container(
+            SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 20), 
                     child: Text("POZOSTAŁE USTAWIENIA", style: TextStyle(color: Colors.grey, fontSize: 13, ))),
                   ListTile(
-                    title: Text("Automatycznie aktualizuj w nocy", style: TextStyle(fontWeight: FontWeight.bold),),
-                    subtitle: Text("Zaktualizuj informacje o pogodzie między 23:00 a 07:00"),
+                    title: const Text("Automatycznie aktualizuj w nocy", style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: const Text("Zaktualizuj informacje o pogodzie między 23:00 a 07:00"),
                     trailing: Switch(
                       value: context.watch<SettingsProvider>().getDefaultSettings["autoUpdate"],
                       onChanged: (value){
@@ -120,8 +120,8 @@ class _SettingsState extends State<Settings> {
                   ),
 
                   ListTile(
-                    title:Text("Efekty dźwiękowe", style: TextStyle(fontWeight: FontWeight.bold),),
-                    subtitle: Text("Efekty dźwiękowe towarzyszą zmianom pogody"),
+                    title:const Text("Efekty dźwiękowe", style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: const Text("Efekty dźwiękowe towarzyszą zmianom pogody"),
                     trailing: Switch(
                       value: context.watch<SettingsProvider>().getDefaultSettings["soundEffect"],
                       onChanged: (value){
@@ -129,26 +129,26 @@ class _SettingsState extends State<Settings> {
                       },
                     )
                   ),
-                  Divider(color: Colors.grey, height: 2,)
+                  const Divider(color: Colors.grey, height: 2,)
                   
                 ],
               )
             ),
 
-            Container(
+            SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 4,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 20), 
                     child: Text("O POGODZIE", style: TextStyle(color: Colors.grey, fontSize: 13, ))),
                   ListTile(
-                    title: Text("Opinia", style: TextStyle(fontWeight: FontWeight.bold),),
+                    title: const Text("Opinia", style: TextStyle(fontWeight: FontWeight.bold),),
                     trailing: IconButton(
-                      icon: Icon(Icons.arrow_forward_ios),
+                      icon: const Icon(Icons.arrow_forward_ios),
                       onPressed: (){
                         showCupertinoDialog<void>(
                           context: context, 
@@ -157,11 +157,11 @@ class _SettingsState extends State<Settings> {
                               title: const Text("Oceń Pogodę"),
                               actions:<CupertinoDialogAction>[
                                 CupertinoDialogAction(
-                                  child: const Text("Później"),
                                   isDestructiveAction: true,
                                   onPressed: (){
                                     Navigator.pop(context);
                                   },
+                                  child: const Text("Później"),
                                 ),
 
                                 CupertinoDialogAction(
@@ -180,14 +180,40 @@ class _SettingsState extends State<Settings> {
                   ),
 
                   ListTile(
-                    title:Text("Polityka Prywatności", style: TextStyle(fontWeight: FontWeight.bold),),
+                    title:const Text("Polityka Prywatności", style: TextStyle(fontWeight: FontWeight.bold),),
                     trailing: IconButton(
-                      icon: Icon(Icons.arrow_forward_ios),
+                      icon: const Icon(Icons.arrow_forward_ios),
                       onPressed: (){
                         
                       },
                     )
-                  ),  
+                  ), 
+                  const Divider(color: Colors.grey, height: 2,)
+                ],
+              )
+            ),
+
+            SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 5.5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20), 
+                    child: Text("ZABEZPIECZENIA", style: TextStyle(color: Colors.grey, fontSize: 13, ))),
+                  ListTile(
+                    title:const Text("Wyłącz zabezpieczenia (nie zalecane)", style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: const Text("Twoje dane dotyczące lokalizacji mogą zostać przechwycone przez nieodpowiednie osoby"),
+                    trailing: Switch(
+                      activeColor: Colors.red,
+                      value: context.watch<SettingsProvider>().getDefaultSettings["security"],
+                      onChanged: (value){
+                        context.read<SettingsProvider>().setSecurity(value);
+                      },
+                    )
+                  ),
                 ],
               )
             ),

@@ -1,7 +1,6 @@
 import json
-
+import requests
 def weather(lon: str, lat: str):
-    import requests
     params = {
         "latitude": lat,
         "longitude": lon,
@@ -14,8 +13,8 @@ def weather(lon: str, lat: str):
     url = "https://api.open-meteo.com/v1/forecast"
 
     data = requests.get(url, params=params).json()
-    air_data = air_quality(lat, lon)
-    city_name = json.loads(get_city(lat, lon))
+    air_data = air_quality(lon, lat)
+    city_name = get_city(lon,lat)
     data['current']['european_aqi'] = air_data['current']['european_aqi']
     data['current']['city_name'] = city_name['display_name']
     del data['latitude']
@@ -24,7 +23,6 @@ def weather(lon: str, lat: str):
 
 
 def air_quality(lon: str, lat: str):
-    import requests
     params = {
         "latitude": lat,
         "longitude": lon,
@@ -42,7 +40,6 @@ def air_quality(lon: str, lat: str):
 
 
 def get_city(lon: str, lat: str):
-    import requests
     params = {
         "lat": float(lat),
         "lon": float(lon),
@@ -50,5 +47,7 @@ def get_city(lon: str, lat: str):
         "accept-language": "pl-PL"
         }
     url = f"http://nominatim.openstreetmap.org/reverse"
-    data = requests.get(url, params=params).text
+    data = requests.get(url, params=params).json()
     return data
+
+get_city("22","54")

@@ -18,11 +18,11 @@ class SevenDayBox extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              Text(context.watch<WeatherProvider>().getDailyweather(0).getDayOfTheWeek(day), style: TextStyle(fontSize: 16),),
+              Text(context.watch<WeatherProvider>().getDailyweather(0).getDayOfTheWeek(day), style: const TextStyle(fontSize: 16),),
               const SizedBox(height: 3,),
-              Text(day.substring(5,10).replaceAll("-", "."), style: TextStyle(fontSize: 12, color: Colors.grey)),
+              Text(day.substring(5,10).replaceAll("-", "."), style: const TextStyle(fontSize: 12, color: Colors.grey)),
               const SizedBox(height: 20,),
-              Text(icon, style: TextStyle(fontSize: 26),),
+              Text(icon, style: const TextStyle(fontSize: 26),),
             ],
           )
         ),
@@ -31,8 +31,8 @@ class SevenDayBox extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(maxTemperature, style: TextStyle(fontSize: 16)),
-              Text(minTemperature, style: TextStyle(fontSize: 16)),
+              Text(maxTemperature, style: const TextStyle(fontSize: 16)),
+              Text(minTemperature, style: const TextStyle(fontSize: 16)),
               Text(windspeed),
             ],
           )

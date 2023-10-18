@@ -21,7 +21,7 @@ const Home({ Key? key }) : super(key: key);
         actions: [
           IconButton(onPressed: ()=> context.go('/settings'), icon: Icon(Icons.settings))
         ],
-        title: Text(context.watch<LocationProvider>().getName),
+        title: Text(context.watch<LocationProvider>().getMainName),
         centerTitle: true,
       ),
       backgroundColor: Color.fromARGB(255, 34, 126, 230),

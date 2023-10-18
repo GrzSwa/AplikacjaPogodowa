@@ -28,16 +28,25 @@ class LocationService{
     return _locationData;
   }
   
-  Future <String> getCity(LocationData locationData) async{
-    var response = await responseBody("geocode.maps.co","/reverse",{"lat":locationData.latitude.toString(), "lon":locationData.longitude.toString()});
+  Future <List<Map<dynamic,dynamic>>> getCity(String url, [String unencodePath = '', Map<String, dynamic>? queryParams]) async{
+    List<Map<dynamic,dynamic>> list = [];
+    var response = await responseBody(url,unencodePath,queryParams);
+    var responseByte = utf8.decode(response!.bodyBytes); 
+    var modifyResponseByte = responseByte.replaceAll(r'\"','"');
+    var convertToString = modifyResponseByte.substring(1,modifyResponseByte.length - 1);
+    var convertToList = convertToString.split("},");
+    for(var i in convertToList){
+      if(i.endsWith("}")){
+        var decodedResponse = jsonDecode(i) as Map;
+        list.add(decodedResponse);
+      }else{
+        var decodedResponse = jsonDecode(i+"}") as Map;
+        list.add(decodedResponse);
+      }
+
+    }
     
-    var decodedResponse = jsonDecode(response!.body) as Map;
-    if(decodedResponse["address"]["city"] != null)
-      return decodedResponse["address"]["city"];
-    else if(decodedResponse["address"]["village"] != null)
-      return decodedResponse["address"]["village"];
-    else
-      return 'Brak lokalizacji';
+    return list;
 
   }
 

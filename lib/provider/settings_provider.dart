@@ -6,12 +6,14 @@ class SettingsProvider extends ChangeNotifier{
   final List<String> _unitOfAtmosphericPressure = ["Hektopaskal (hPa)", "Milibar (mbar)", "Milimetr rtęci (mmHg)", "Cal rtęci (inHG)", "Standardowa atmosfera (atm)"];
   final bool _autoUpdate = false;
   final bool _soundEffect = false;
+  final bool _security = false;
   final Map<String, dynamic> _defaultSettings = {
     "temperatureUnit": "ºC",
     "utniOfWindSpeed": "Kilometrów na godzinę (km/h)",
     "unitOfAtmosphericPressure": "Milibar (mbar)",
     "autoUpdate": false,
-    "soundEffect": false
+    "soundEffect": false,
+    "security" : false
   };
 
   List<String> get getTemperatureUnit => _temperatureUnit;
@@ -19,7 +21,13 @@ class SettingsProvider extends ChangeNotifier{
   List<String> get getUnitOfAtmosphericPressure => _unitOfAtmosphericPressure;
   bool get getAutoUpdate => _autoUpdate;
   bool get getsoundEffecte => _soundEffect;
+  bool get getSecurity => _security;
   Map<String, dynamic> get getDefaultSettings => _defaultSettings;
+
+  void setSecurity(bool value) async{
+    this._defaultSettings["security"] = value;
+    notifyListeners();
+  }
 
   void setTemperatureUnit(String temperatureUnit) async{
     this._defaultSettings["temperatureUnit"] = temperatureUnit;

@@ -21,11 +21,11 @@ const Temperature({ Key? key }) : super(key: key);
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(temperature, style: TextStyle(
+            Text(temperature, style: const TextStyle(
               fontSize: 90,
               color: Colors.white
             ),),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 15), 
               child: Text("ºC", style: TextStyle(
                 fontSize: 25,
@@ -35,7 +35,7 @@ const Temperature({ Key? key }) : super(key: key);
           ],
         ),
         Text('$weather $minTemperatureº / $maxTemperatureº', 
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.bold
@@ -51,8 +51,8 @@ const Temperature({ Key? key }) : super(key: key);
           child: Text.rich(
             TextSpan(
               children: [
-                WidgetSpan(child: Icon(Icons.energy_savings_leaf_rounded, size: 15, color: Colors.white)),
-                TextSpan(text: " IJP $airQuality", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
+                const WidgetSpan(child: Icon(Icons.energy_savings_leaf_rounded, size: 15, color: Colors.white)),
+                TextSpan(text: " IJP $airQuality", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
               ]
             )
           )
