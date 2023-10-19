@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +5,10 @@ import 'package:weather_app/model/daily_weather_model.dart';
 import 'package:weather_app/model/hourly_weather_model.dart';
 import 'package:weather_app/provider/data_provider.dart';
 import 'package:weather_app/provider/locationProvider.dart';
+import 'package:weather_app/provider/settings_provider.dart';
 import 'package:weather_app/provider/weatherProvider.dart';
 import 'package:weather_app/services/encryption_service.dart' as EncryptionService;
+import 'package:weather_app/services/local_storage_service.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 import 'package:weather_app/model/current_weather_model.dart';
@@ -31,23 +30,33 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     }
 
   void initialization() async {
+    LocalStorageService localStorageService = LocalStorageService();
     LocationService locationService = LocationService();
     WeatherService weatherService = WeatherService();
     LocationData locationData = await locationService.getLocation();
     int currentHour = DateTime.now().hour;
     String plainText = '{"longitude":"${locationData.longitude.toString()}", "latitude":${locationData.latitude.toString()}}';
-
-    var PK = await weatherService.getPublicKey("10.0.2.2:30000","/key");
+    await localStorageService.loadlLocalStorage();
+    // ignore: non_constant_identifier_names
+    var PK = await weatherService.getPublicKey("127.0.0.1:30000","/key");
     var encrypted = EncryptionService.encryption(PK["public_key"], plainText);
-    
+    String unencodedPath = '';
+    Map<String,dynamic> body = {};
+    Map<dynamic, dynamic>? info;
+    if(localStorageService.getSecurityStatus){
+      unencodedPath = 'unencrypted/weather';
+      body = {
+        "longitude": locationData.longitude.toString(),
+        "latitude": locationData.latitude.toString()
+      };
+      info = await weatherService.weatherInfoUnencrypted("127.0.0.1:30000",unencodedPath,body);
+    }else{
+      unencodedPath = "/astro/weather";
+      body = { "encrypted_data":encrypted.base64, };
+      info = await weatherService.weatherInfo("127.0.0.1:30000",unencodedPath,body);
+    }
 
-    var info = await weatherService.weatherInfo(
-      "10.0.2.2:30000",
-      "/astro/weather",
-      {
-        "encrypted_data":encrypted.base64, 
-      }
-    );
+    
 
     if(info != null){
       Provider.of<LocationProvider>(context, listen: false).setCity(info["current"]["city_name"]);
@@ -100,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       Provider.of<WeatherProvider>(context, listen: false).addDailyweather(dailyWeatherList);
     }
 
-    
+    Provider.of<SettingsProvider>(context, listen: false).setDefaultSettings(localStorageService.getSettings);
     Provider.of<DataProvider>(context, listen: false).setLocationProviderStatus(true);
     Provider.of<DataProvider>(context, listen: false).setSettingsProviderStatus(true);
     Provider.of<DataProvider>(context, listen: false).setWeatherProviderStatus(true);
@@ -120,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              backgroundColor: Color.fromARGB(255, 34, 126, 230),
+              backgroundColor: const Color.fromARGB(255, 34, 126, 230),
               body: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25), 

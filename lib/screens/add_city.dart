@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/locationProvider.dart';
-import 'package:weather_app/router/router.dart';
 import 'package:weather_app/services/location_service.dart';
 
 class AddCity extends StatefulWidget {
@@ -44,7 +43,7 @@ class _AddCityState extends State<AddCity> {
       .replaceAll("ś", "s");
     
     var response = await locationService.getCity(
-      "10.0.2.2:30000",
+      "127.0.0.1:30000",
       "/search/",
       {
         "search_name":prepareData, 
@@ -117,11 +116,11 @@ class _AddCityState extends State<AddCity> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 15, left: 5), 
-              child: Text(endpointCities.length < 1 ?'Popularne miasta' : "Dopasowania", style: TextStyle(color: Colors.grey),)
+              padding: const EdgeInsets.only(top: 15, left: 5), 
+              child: Text(endpointCities.isEmpty ?'Popularne miasta' : "Dopasowania", style: const TextStyle(color: Colors.grey),)
             ),
             const SizedBox(height: 10,),
-            if(endpointCities.length < 1)
+            if(endpointCities.isEmpty)
               Wrap(
                 children: [
                   for(int i = 0; i < cities.length; i++)
@@ -150,7 +149,7 @@ class _AddCityState extends State<AddCity> {
                       padding: const EdgeInsets.symmetric(vertical: 5,),
                       margin: const EdgeInsets.only(top: 5),
                       child: ListTile(
-                        title: Text(endpointCities[index]["display_name"].toString().split(",")[0], style: TextStyle(fontWeight: FontWeight.bold),),
+                        title: Text(endpointCities[index]["display_name"].toString().split(",")[0], style: const TextStyle(fontWeight: FontWeight.bold),),
                         subtitle: Text("${endpointCities[index]["display_name"].toString().split(",")[1]}, ${endpointCities[index]["display_name"].toString().split(",")[2]}"),
                         trailing: IconButton(
                           icon: const Icon(Icons.add), 

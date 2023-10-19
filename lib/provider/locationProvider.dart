@@ -14,6 +14,11 @@ class LocationProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void setLocationList(List<LocationModel> list){
+    this._locationsList = list;
+    notifyListeners();
+  }
+
   void removeLocation(int id) async{
     _locationsList.removeAt(id);
     notifyListeners();
@@ -25,8 +30,8 @@ class LocationProvider extends ChangeNotifier{
       "10.0.2.2:30000",
       "/unencrypted/weather",
       {
-        "longitude": "${location["lon"].toString()}",
-        "latitude": "${location["lat"].toString()}" 
+        "longitude": location["lon"].toString(),
+        "latitude": location["lat"].toString() 
       }
     );
     var locationModel = LocationModel(

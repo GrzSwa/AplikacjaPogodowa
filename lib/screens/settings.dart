@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/provider/settings_provider.dart';
 
 class Settings extends StatefulWidget {
@@ -12,9 +15,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-
   @override
   Widget build(BuildContext context){
+    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: ()=> context.go('/'), icon: const Icon(Icons.arrow_back, color: Colors.black,)),
@@ -51,8 +54,10 @@ class _SettingsState extends State<Settings> {
                             child: Text(Provider.of<SettingsProvider>(context,listen: false).getTemperatureUnit[i]),
                           ),
                       ],
-                      onSelected: (String value){
-                          context.read<SettingsProvider>().setTemperatureUnit(value);
+                      onSelected: (String value) async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString("temperatureUnit", value);
+                        context.read<SettingsProvider>().setTemperatureUnit(value);
                       },
                     ),
                   ),
@@ -69,8 +74,10 @@ class _SettingsState extends State<Settings> {
                             child: Text(Provider.of<SettingsProvider>(context,listen: false).getUtniOfWindSpeed[i]),
                           ),
                       ],
-                      onSelected: (String value){
-                          context.read<SettingsProvider>().setUtniOfWindSpeed(value);
+                      onSelected: (String value)async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString("utniOfWindSpeed", value);
+                        context.read<SettingsProvider>().setUtniOfWindSpeed(value);
                       },
                     ),
                   ),
@@ -87,7 +94,9 @@ class _SettingsState extends State<Settings> {
                             child: Text(Provider.of<SettingsProvider>(context,listen: false).getUnitOfAtmosphericPressure[i]),
                           ),
                       ],
-                      onSelected: (String value){
+                      onSelected: (String value)async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString("unitOfAtmosphericPressure", value);
                           context.read<SettingsProvider>().setUnitOfAtmosphericPressure(value);
                       },
                     ),
@@ -113,8 +122,10 @@ class _SettingsState extends State<Settings> {
                     subtitle: const Text("Zaktualizuj informacje o pogodzie między 23:00 a 07:00"),
                     trailing: Switch(
                       value: context.watch<SettingsProvider>().getDefaultSettings["autoUpdate"],
-                      onChanged: (value){
+                      onChanged: (value)async {
                           context.read<SettingsProvider>().setAutoUpdate(value);
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool("autoUpdate", value);
                       },
                     )
                   ),
@@ -124,8 +135,10 @@ class _SettingsState extends State<Settings> {
                     subtitle: const Text("Efekty dźwiękowe towarzyszą zmianom pogody"),
                     trailing: Switch(
                       value: context.watch<SettingsProvider>().getDefaultSettings["soundEffect"],
-                      onChanged: (value){
+                      onChanged: (value)async{
                         context.read<SettingsProvider>().setSoundEffect(value);
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool("soundEffect", value);
                       },
                     )
                   ),
@@ -209,8 +222,10 @@ class _SettingsState extends State<Settings> {
                     trailing: Switch(
                       activeColor: Colors.red,
                       value: context.watch<SettingsProvider>().getDefaultSettings["security"],
-                      onChanged: (value){
+                      onChanged: (value)async{
                         context.read<SettingsProvider>().setSecurity(value);
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool("security", value);
                       },
                     )
                   ),

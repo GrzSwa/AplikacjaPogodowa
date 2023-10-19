@@ -7,14 +7,7 @@ class SettingsProvider extends ChangeNotifier{
   final bool _autoUpdate = false;
   final bool _soundEffect = false;
   final bool _security = false;
-  final Map<String, dynamic> _defaultSettings = {
-    "temperatureUnit": "ºC",
-    "utniOfWindSpeed": "Kilometrów na godzinę (km/h)",
-    "unitOfAtmosphericPressure": "Milibar (mbar)",
-    "autoUpdate": false,
-    "soundEffect": false,
-    "security" : false
-  };
+  Map<String, dynamic> _defaultSettings = {};
 
   List<String> get getTemperatureUnit => _temperatureUnit;
   List<String> get getUtniOfWindSpeed => _utniOfWindSpeed;
@@ -23,6 +16,11 @@ class SettingsProvider extends ChangeNotifier{
   bool get getsoundEffecte => _soundEffect;
   bool get getSecurity => _security;
   Map<String, dynamic> get getDefaultSettings => _defaultSettings;
+
+  void setDefaultSettings(Map<String,dynamic> settings){
+    this._defaultSettings = settings;
+    notifyListeners();
+  }
 
   void setSecurity(bool value) async{
     this._defaultSettings["security"] = value;
