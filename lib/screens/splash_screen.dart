@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     String plainText = '{"longitude":"${locationData.longitude.toString()}", "latitude":${locationData.latitude.toString()}}';
     await localStorageService.loadlLocalStorage();
     // ignore: non_constant_identifier_names
-    var PK = await weatherService.getPublicKey("127.0.0.1:30000","/key");
+    var PK = await weatherService.getPublicKey("10.0.2.2:30000","/key");
     var encrypted = EncryptionService.encryption(PK["public_key"], plainText);
     String unencodedPath = '';
     Map<String,dynamic> body = {};
@@ -49,11 +49,11 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         "longitude": locationData.longitude.toString(),
         "latitude": locationData.latitude.toString()
       };
-      info = await weatherService.weatherInfoUnencrypted("127.0.0.1:30000",unencodedPath,body);
+      info = await weatherService.weatherInfoUnencrypted("10.0.2.2:30000",unencodedPath,body);
     }else{
       unencodedPath = "/astro/weather";
       body = { "encrypted_data":encrypted.base64, };
-      info = await weatherService.weatherInfo("127.0.0.1:30000",unencodedPath,body);
+      info = await weatherService.weatherInfo("10.0.2.2:30000",unencodedPath,body);
     }
 
     

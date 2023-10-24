@@ -10,7 +10,7 @@ class WeatherProvider extends ChangeNotifier{
   DailyWeatherModel getDailyweather(int index){ return _dailyWeatherList[index]; }
   CurrentWeatherModel getCurrentWeather(){ return _currentWeather; }
   HourlyWeatherModel getHourlyWeather(int index){ return _hourlyWeatherList[index]; }
-
+  List<HourlyWeatherModel> getHourlyWeatherList() { return _hourlyWeatherList;}
   void addDailyweather(List<DailyWeatherModel> dailyWeatherModel) async{
     _dailyWeatherList = dailyWeatherModel;
     notifyListeners();

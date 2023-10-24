@@ -43,7 +43,7 @@ class _AddCityState extends State<AddCity> {
       .replaceAll("ś", "s");
     
     var response = await locationService.getCity(
-      "127.0.0.1:30000",
+      "10.0.2.2:30000",
       "/search/",
       {
         "search_name":prepareData, 

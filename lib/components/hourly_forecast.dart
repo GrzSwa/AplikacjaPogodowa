@@ -26,7 +26,7 @@ const HourlyForecast({ Key? key }) : super(key: key);
           Expanded(
             child:ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 24,
+              itemCount: context.watch<WeatherProvider>().getHourlyWeatherList().length,
               itemBuilder: (context,index){
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
