@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from routers import astro, key, search, unencrypted
+import os
 
 app = FastAPI(
 title="Aplikacja pogodwa",
@@ -26,4 +27,10 @@ app.include_router(unencrypted.router)
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=30000)
+    uvicorn.run(
+        app,
+        host="127.0.0.1",
+        port=30000,
+        ssl_certfile="cert.pem",
+        ssl_keyfile="key.pem"
+    )

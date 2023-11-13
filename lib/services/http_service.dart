@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<http.Response?> responseBody(String urlAddress,[String unencodedPath = '',Map<String,dynamic>? queryParams]) async {
-  var url = Uri.http(urlAddress,unencodedPath);
+  var url = Uri.https(urlAddress,unencodedPath);
   if(queryParams != null){
     var response = await http.post(
       url,
